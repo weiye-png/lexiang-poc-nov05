@@ -1,0 +1,159 @@
+.draft-anchor {
+  position: relative;
+  width: 100%;
+  padding-top: var(--reserve, 0px);
+  container-type: inline-size;
+}
+.input-area:has(.draft-suggest:not([hidden])) { position: relative; z-index: 5; }
+.draft-suggest {
+  position: absolute;
+  z-index: 4;
+  right: 1px;
+  left: 1px;
+  bottom: calc(100% - var(--reserve, 0px) + 5px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #d8ccdf transparent;
+  margin: 0;
+  padding: 9px 0 5px;
+  border: 1px solid #e2dcec;
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 8px 28px #73549412;
+  text-align: left;
+}
+.draft-suggest[hidden] { display: none; }
+.draft-title { margin: 0; padding: 2px 16px 5px; color: #858186; font-size: 12px; font-weight: 400; line-height: 18px; }
+.draft-choices { list-style: none; padding: 0; margin: 0; }
+.draft-choices button {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #151216;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+  cursor: pointer;
+}
+.draft-choices button:hover, .draft-choices button:focus-visible { background: #f8f4fa; }
+.draft-choices button:focus-visible { outline: 2px solid #b180bb; outline-offset: -2px; }
+.draft-number { flex: none; min-width: 11px; color: #551747; font-size: 13px; font-weight: 600; }
+.draft-detail { color: #908d91; font-size: 12px; }
+#composer:focus-within, .draft-anchor:has(.draft-suggest:not([hidden])) #composer {
+  border: 1px solid transparent;
+  background: linear-gradient(#fff, #fff) padding-box,
+              linear-gradient(115deg, #ac65e9, #f04773 58%, #541346) border-box;
+  box-shadow: 0 0 0 5px #945fc811;
+}
+#composer { padding: 15px 16px 13px; border-radius: 20px; }
+#composer textarea { color: #171418; font-size: 16px; line-height: 1.55; }
+#composer .composer-toolbar { margin-top: 0; gap: 8px; }
+#composer .thinking, #composer .scopes > button, #composer .more-wrap > button {
+  min-height: 34px;
+  padding: 5px 10px;
+  border: 1px solid #eee3f0;
+  border-radius: 7px;
+  color: #59164e;
+  background: white;
+  font-size: 14px;
+  white-space: nowrap;
+}
+#composer .scopes { gap: 8px; }
+#composer .thinking { gap: 5px; }
+#composer .thinking.active { background: #f5eff7; border-color: #ccb1d3; }
+#composer .thinking-mode { margin-left: -5px; }
+#composer .thinking:not(.active) .thinking-mode { display:none; }
+#composer .composer-end { margin-left: auto; }
+#composer #attach-button { color: #561848; }
+#composer #send-button { width: 36px; height: 36px; }
+@container (max-width: 620px) {
+  #composer { padding: 12px; border-radius: 17px; }
+  #composer .composer-toolbar, #composer .scopes { gap: 5px; }
+  #composer .thinking, #composer .scopes > button, #composer .more-wrap > button { min-height: 30px; padding: 4px 7px; font-size: 12px; }
+  #composer .scopes { display: flex !important; }
+  #composer .scopes > button { display: none !important; }
+  #composer .more-wrap > button { display: flex; }
+  #composer .more-menu { left: 0; right: auto; }
+  #composer .more-menu .menu-option { display: block; }
+  #composer #send-button { width: 32px; height: 32px; }
+  .draft-title { padding-left: 12px; }
+  .draft-choices button { padding: 9px 12px; min-height: 39px; gap: 6px; flex-wrap: wrap; }
+  .draft-detail { font-size: 11px; }
+}
+
+/* Keep the paused answer readable above its choices. */
+.draft-suggest[data-mode="diagnosis"] {
+  position: relative;
+  inset: auto;
+  margin: 0 1px 5px;
+}
+.turn-selection { margin: 12px 0; border-left: 2px solid #c8b1cf; padding-left: 12px; color: #615568; font-size: 13px; }
+.turn-selection strong { display: block; margin-top: 2px; color: #59164e; }
+
+.draft-suggest:not([hidden]):has(.draft-confirm:not([hidden])) {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px 12px;
+  overflow: hidden;
+}
+.diagnosis-heading:not([hidden]) { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: #786f79; }
+.diagnosis-heading:not([hidden]) + .draft-title { padding: 8px 0 10px; font-size: 15px; line-height: 1.4; font-weight: 600; color: #302334; }
+.draft-suggest:has(.draft-confirm:not([hidden])) .draft-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.draft-choices button[aria-pressed] {
+  height: 100%;
+  padding: 8px 10px;
+  border: 1px solid #e5dde7;
+  border-radius: 8px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.draft-choices button[aria-pressed]::after {
+  content: '';
+  margin-left: auto;
+  flex: 0 0 16px;
+  height: 16px;
+  border: 1px solid #b9a7bd;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 14px;
+}
+.draft-choices button[aria-pressed="true"] { background: #f7f1f8; color: #581448; border-color: #a779a6; }
+.draft-choices button[aria-pressed="true"]::after { content: '✓'; color: white; background: #681958; border-color: #681958; }
+.draft-confirm:not([hidden]) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: none;
+  padding-top: 12px;
+}
+.draft-count { color: #685a69; font-size: 12px; }
+.draft-confirm button { padding: 5px 10px; font-size: 13px; min-height: 34px; }
+.draft-confirm [data-diagnosis="submit"] { margin-left: auto; }
+.draft-confirm [aria-pressed="true"] { background: #f7f1f8; border-color: #a779a6; }
+.draft-confirm button:disabled { opacity: .45; cursor: default; }
+#composer.diagnosis-composer { display: flex; align-items: center; gap: 8px; padding: 10px 14px; }
+#composer.diagnosis-composer textarea { flex: 1; min-width: 0; min-height: 36px; height: 36px; padding: 5px 0; }
+#composer.diagnosis-composer .composer-toolbar { flex: none; }
+#composer.diagnosis-composer .composer-toolbar > :not(.composer-end),
+#composer.diagnosis-composer .composer-end > :not(#send-button) { display: none !important; }
+@container (max-width: 400px) {
+  .draft-suggest:not([hidden]):has(.draft-confirm:not([hidden])) { padding: 10px; }
+  .draft-choices button[aria-pressed] { font-size: 13px; gap: 4px; padding: 7px; }
+  .draft-choices button[aria-pressed]::after { flex-basis: 13px; height: 13px; line-height: 11px; }
+}

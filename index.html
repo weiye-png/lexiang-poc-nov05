@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="联想乐享交互 POC，体验智能问答、商品推荐和购物流程。">
+  <title>联想乐享 · 交互 POC</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%235b1452'/%3E%3Ctext x='20' y='28' text-anchor='middle' font-size='27' fill='white'%3E乐%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="complete.css">
+  <link rel="stylesheet" href="suggest.css">
+  <script defer src="data.js"></script>
+  <script defer src="portal-data.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="complete.js"></script>
+  <script defer src="followup.js"></script>
+  <script defer src="suggest.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-action="home" aria-label="联想乐享首页"><img src="assets/logo.png" alt="联想乐享"></button>
+    <nav class="navigation" aria-label="主导航">
+      <button class="nav-current" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu"><span id="nav-label">首页 · 新对话</span><i data-icon="chevron"></i></button>
+      <div class="nav-menu" id="nav-menu" hidden>
+        <button data-category="首页">首页</button><button data-category="个人及家庭">个人及家庭</button><button data-category="中小企业">中小企业</button><button data-category="政教及大企业">政教及大企业</button><button data-category="品牌">品牌</button>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <span class="poc-badge">POC 演示</span>
+      <button class="icon-button" data-action="history" aria-label="历史对话" title="历史对话"><i data-icon="history"></i></button>
+      <button class="icon-button cart-button" data-action="cart" aria-label="购物车" title="购物车"><i data-icon="cart"></i><span id="cart-count" hidden>0</span></button>
+      <button class="icon-button" data-action="orders" aria-label="我的订单" title="我的订单"><i data-icon="orders"></i></button>
+      <span class="divider"></span>
+      <button class="icon-button profile-button" data-action="profile" aria-label="个人中心" title="个人中心"><i data-icon="user"></i></button>
+    </div>
+  </header>
+  <main class="workspace" id="workspace">
+    <div class="ambient" aria-hidden="true"></div>
+    <div class="conversation-bar" id="conversation-bar" hidden><span><i data-icon="sparkle"></i> 乐享 AI 助手 <small>模拟对话</small></span><button class="text-button" data-action="home"><i data-icon="plus"></i> 新建对话</button></div>
+    <section class="welcome" id="welcome">
+      <div class="welcome-eyebrow"><span class="status-dot"></span> 你的全场景 AI 助手</div>
+      <h1>联想乐享帮你<span id="rotating-word">找商品</span></h1>
+      <p id="welcome-subtitle">从灵感到选择，让每一个需求，都有更好的答案。</p>
+    </section>
+    <section class="thread content-width" id="thread" aria-label="对话内容" aria-live="polite" hidden></section>
+    <div class="input-area content-width" id="input-area">
+      <div class="suggestions" id="suggestions"></div>
+      <div class="draft-anchor">
+        <section id="draft-suggest" class="draft-suggest" aria-labelledby="draft-title" hidden>
+          <div class="diagnosis-heading" hidden>
+            <span>补充诊断信息</span><span class="draft-count" aria-live="polite"></span>
+          </div>
+          <p class="draft-title" id="draft-title"></p>
+          <ol class="draft-choices"></ol>
+          <div class="draft-confirm" hidden>
+            <button class="secondary-button" type="button" data-diagnosis="skip">跳过</button>
+            <button class="secondary-button" type="button" data-diagnosis="other" aria-controls="prompt">补充其他情况</button>
+            <button class="primary-button" type="button" data-diagnosis="submit" disabled>提交回答</button>
+          </div>
+        </section>
+      <form class="composer" id="composer">
+        <label class="sr-only" for="prompt">输入你的问题</label>
+        <textarea id="prompt" aria-controls="draft-suggest" rows="2" maxlength="2000" placeholder="推荐一款适合我的笔记本电脑"></textarea>
+        <span id="draft-hint" class="sr-only" role="status"></span>
+        <div id="attachment" class="attachment" hidden></div>
+        <div class="composer-toolbar">
+          <button type="button" id="thinking" class="thinking active" aria-pressed="true"><i data-icon="atom"></i>深度思考<span class="thinking-mode">（自动）</span></button>
+          <div class="scopes" aria-label="快捷服务">
+            <button type="button" data-scope="商品导购">商品导购</button>
+            <button type="button" data-scope="解决方案">解决方案</button>
+            <button type="button" data-scope="门店查询">门店查询</button>
+            <button type="button" data-scope="服务预约">服务预约</button>
+          </div>
+          <div class="composer-end"><button type="button" class="icon-button" id="attach-button" aria-label="添加图片" title="添加图片（本地预览）"><i data-icon="image"></i></button><button type="submit" id="send-button" class="send-button" aria-label="发送问题" disabled><i data-icon="arrow-up"></i></button></div>
+        </div>
+        <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" hidden>
+      </form>
+      </div>
+      <p class="input-note">POC 中的 AI 回答与交易流程为模拟演示，商品价格为示例。</p>
+    </div>
+    <section class="gallery content-width" id="gallery" aria-label="内容推荐">
+      <div class="gallery-heading"><div class="gallery-tabs" role="tablist" aria-label="内容分类"><button class="active" role="tab" aria-selected="true" data-tab="products">新品</button><button role="tab" aria-selected="false" data-tab="activities">活动</button><button role="tab" aria-selected="false" data-tab="news">新闻</button></div><span class="gallery-caption">发现更多可能 <i data-icon="sparkle"></i></span></div>
+      <div class="gallery-grid" id="gallery-grid" role="tabpanel"></div>
+    </section>
+    <footer class="footer"><span>联想乐享 · 交互概念验证</span><span class="footer-dot">·</span><a href="https://lexiang.lenovo.com.cn" target="_blank" rel="noopener noreferrer">查看参考网站 <i data-icon="external"></i></a></footer>
+  </main>
+  <dialog id="modal" aria-labelledby="modal-title"><div class="modal-header"><h2 id="modal-title"></h2><button class="icon-button" data-action="close" aria-label="关闭弹窗"><i data-icon="close"></i></button></div><div id="modal-body"></div></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
